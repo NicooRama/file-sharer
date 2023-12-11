@@ -1,0 +1,13 @@
+@keyframes skeletonBackground {
+    0% {
+        background-color: hsl(200, 20%, 70%);
+    }
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+
+.skeletonBackgroundAnimation {
+    opacity: 0.7;
+    animation: skeletonBackground 1s linear infinite alternate;
+}
