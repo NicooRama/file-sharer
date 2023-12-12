@@ -15,12 +15,49 @@ export const users: User[] = [
         id: '3',
         username: 'dibumartinez@gmail.com',
         password: 'miraquetecomo'
-    }
-]
+    },
+    {
+        id: '4',
+        username: 'kunaguero@gmail.com',
+        password: 'aguero2023'
+    },
+    {
+        id: '5',
+        username: 'paulodybala@gmail.com',
+        password: 'dybala10'
+    },
+    {
+        id: '6',
+        username: 'sergioramos@gmail.com',
+        password: 'halamadrid'
+    },
+    {
+        id: '7',
+        username: 'virgilvandijk@gmail.com',
+        password: 'liverpoolfc'
+    },
+    {
+        id: '8',
+        username: 'kevindebruyne@gmail.com',
+        password: 'manchestercity'
+    },
+    {
+        id: '9',
+        username: 'neymarjr@gmail.com',
+        password: 'psgforever'
+    },
+    {
+        id: '10',
+        username: 'masonmount@gmail.com',
+        password: 'chelseafc'
+    },
+];
 
 export const userExists = (username: string) => {
     return users.some(u => u.username.toLowerCase() === username.toLowerCase());
 }
+
+export const findById = (id: string): User | undefined => users.find(u => u.id === id);
 
 export const findUsers = () => {
     return users.map(u => ({

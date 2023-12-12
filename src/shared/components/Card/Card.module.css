@@ -1,7 +1,7 @@
 .container {
     box-shadow: 0 0 3px 0px var(--box-shadow);
     position: relative;
-    display: inline-block;
+    display: block;
     border: var(--border);
     border-radius: var(--radius-xs);
     padding: var(--spacing-md);

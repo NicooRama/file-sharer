@@ -10,7 +10,7 @@
     line-height: calc(var(--spacing-sm) * 2);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semiBold);
-    border: 2px solid var(--color-primary-normal);
+    border: none;
     border-radius: var(--radius-xs);
     outline: none;
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -24,6 +24,7 @@
 
 .button.primary {
     background-color: var(--color-primary-normal);
+    border: 2px solid var(--color-primary-normal);
     color: white;
 }
 
@@ -43,6 +44,7 @@
 .button.secondary {
     background: transparent;
     color: var(--color-primary-normal);
+    border: 2px solid var(--color-primary-normal);
     padding-top: var(--spacing-xs);
     padding-bottom: var(--spacing-xs);
 }
@@ -77,4 +79,45 @@
 .button.tertiary.focus {
     transition-duration: 0.2s;
     box-shadow: 0 0 0 0.2rem var(--color-primary-lighten);
+}
+
+
+.button.primary.danger {
+    background-color: var(--color-error-normal);
+}
+
+.button.primary.danger:hover,
+.button.primary.danger.active {
+    background-color: var(--color-error-darkest);
+    border-color: var(--color-error-darkest);
+}
+
+.button.primary.danger:focus,
+.button.primary.danger.focus {
+    box-shadow: 0 0 0 0.2rem var(--color-error-lighten);
+}
+
+.button.secondary.danger {
+    color: var(--color-error-normal);
+}
+
+.button.secondary.danger:hover,
+.button.secondary.danger.active {
+    background-color: var(--color-error-darkest);
+    border-color: var(--color-error-darkest);
+}
+
+.button.secondary.danger:focus,
+.button.secondary.danger.focus {
+    box-shadow: 0 0 0 0.2rem var(--color-error-lighten);
+}
+
+.button.tertiary.danger {
+    color: var(--color-error-normal);
+}
+
+.button.tertiary.danger:focus,
+.button.tertiary.danger.focus {
+    transition-duration: 0.2s;
+    box-shadow: 0 0 0 0.2rem var(--color-error-lighten);
 }

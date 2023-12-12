@@ -8,31 +8,34 @@ export interface ButtonProps {
     className?: string;
     disabled?: boolean;
     variant?: 'primary' | 'secondary' | 'tertiary';
+    subVariant?: 'normal' | 'danger';
     tag?: 'button' | 'span' | any;
+
     [props: string]: any;
 }
 
 export const Button: React.FC<ButtonProps> = ({
-                                           tag: Component = 'button',
-                                           onClick = () => {},
-                                           children,
-                                           active = false,
-                                           className = '',
-                                           disabled = false,
-                                           variant = 'primary',
-                                           ...props
-                                       }) => {
-    const handleClick = !disabled ? onClick : () => {};
+                                                  onClick = () => {
+                                                  },
+                                                  children,
+                                                  active = false,
+                                                  className = '',
+                                                  disabled = false,
+                                                  variant = 'primary',
+                                                  subVariant = 'normal',
+                                                  ...props
+                                              }) => {
+    const handleClick = !disabled ? onClick : () => {
+    };
 
     return (
-        <Component
-            className={getClassName({active, className, variant})}
+        <button
+            className={getClassName({active, className, variant, subVariant})}
             disabled={disabled}
             onClick={handleClick}
-            type={Component === 'button' ? 'button' : undefined}
             {...props}
         >
             {children}
-        </Component>
+        </button>
     );
 };

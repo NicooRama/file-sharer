@@ -34,6 +34,10 @@
     font-size: var(--font-size-lg);
 }
 
+.xlg {
+    font-size: var(--font-size-xlg);
+}
+
 .bold {
     font-weight: var(--font-weight-bold);
 }

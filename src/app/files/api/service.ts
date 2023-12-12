@@ -1,21 +1,36 @@
-import {UserFile} from "@/src/app/files/file.interface";
 import {baseUrl} from "@/src/core/constants";
+import {api, authorizationHeaders} from "@/src/app/api/api";
+import {revalidateTag} from "next/cache";
 
-export async function fileList() {
-    const res = await fetch(`${baseUrl}/files/api/list`, {next: {tags: ['files']}});
-    return await res.json();
+export const dynamic = 'force-dynamic'
+
+export async function fetchFiles() {
+    const res = await api.get(`/files/api/list`, {
+        ...authorizationHeaders(),
+        next: {
+            tags: [`files`]
+        }
+    });
+    return res.data;
 }
 
-export async function saveFile(file: UserFile) {
-   //TODO: check user token
+export async function fetchFile(fileId: string) {
+    const res = await api.get(`/files/api/list/${fileId}`, {
+        ...authorizationHeaders(),
+        next: {
+            tags: [`file${fileId}`]
+        }
+    });
+    return res.data;
 }
 
-//TODO: id o email?
-export async function share(fileId: string, userIdToShare: string) {
-   //TODO: check user token
-
-}
-
-export async function revokeAccess(fileId: string, userIdToShare: string) {
-    //TODO: check user token
+export async function shareFile(fileId: string, users: string[]) {
+    const res = await api.put(`/files/api/list/${fileId}`, {
+        sharedWith: users
+    }, {
+        ...authorizationHeaders(),
+    });
+    revalidateTag(`file${fileId}`);
+    revalidateTag(`files`);
+    return res.data;
 }

@@ -1,7 +1,9 @@
-import {getServerSession, NextAuthOptions} from "next-auth";
+import {getServerSession, NextAuthOptions, User} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import {signIn} from "@/src/app/(users)/users/api/db";
 import {redirect} from "next/navigation";
+import {getToken} from "next-auth/jwt";
+import {NextRequest} from "next/server";
 
 export const authConfig: NextAuthOptions = {
     jwt: {
@@ -52,4 +54,19 @@ export async function validateLoggedIn() {
     if (!session) {
         return redirect('/sign-in')
     }
+}
+
+export async function getSessionUser() {
+    const session = await getServerSession(authConfig);
+    return (session?.user as User);
+}
+
+export async function getSessionUserId() {
+    const user = await getSessionUser();
+    return user.id;
+}
+
+export async function getUser(req: NextRequest) {
+    const session = await getToken({req});
+    return (session?.user as User);
 }

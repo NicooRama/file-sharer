@@ -11,6 +11,7 @@ export interface LinkButtonProps extends LinkProps {
     variant?: 'primary' | 'secondary' | 'tertiary';
     active?: boolean;
     "data-testid"?: string;
+    [props: string]: any;
 }
 
 export const LinkButton = ({

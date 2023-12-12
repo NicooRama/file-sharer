@@ -1,16 +1,26 @@
 import {fetchUsersToShare} from "@/src/app/(users)/users/api/service";
-import {User} from "@/src/app/(users)/interfaces";
-import {UserList} from "@/src/app/files/list/[id]/share/components/UserList/UserList";
+import {UserShareList} from "@/src/app/files/list/[id]/share/components/UserList/UserShareList";
+import {fetchFile, shareFile} from "@/src/app/files/api/service";
+import {Text} from "@/src/shared/components/Text/Text";
+import styles from './page.module.css'
+import {notFound} from "next/navigation";
 
-export default async function FileSharePage() {
-    let usersToShare: User[] = await fetchUsersToShare();
+export const dynamic = 'force-dynamic';
 
-    //hacer un componente con la lista de usuarios y vaya checkeando con quien quiere compartir
-    //con un input para que pueda filtrar
+export default async function FileSharePage({ params }: { params: { id: string } }) {
+    const usersToShare = await fetchUsersToShare();
+    let file = await fetchFile(params.id).catch(() => notFound());
+
+    const onShareFile = async (fileId: string, usersToShare: string[]) =>  {
+        'use server'
+        await shareFile(fileId, usersToShare);
+    }
+
 
     return (
-        <div>
-            <UserList users={usersToShare} />
+        <div className={styles.container}>
+            <Text size={'md'}>Comparti <Text weight={'semiBold'} size={'md'}>{file.name}{file.extension}</Text> con:</Text>
+            <UserShareList file={file} users={usersToShare} onShare={onShareFile}/>
         </div>
     )
 }

@@ -12,7 +12,7 @@ import {SubmitButton} from "@/src/shared/components/form/SubmitButton/SubmitButt
 import {ErrorMessage} from "@/src/shared/components/ErrorMessage/ErrorMessage";
 import {useState} from "react";
 import {Messages} from "@/src/messages";
-import {postSignIn} from "@/src/app/(users)/users/api/service";
+import {postSignIn} from "@/src/app/(users)/users/clientService";
 
 export const SignInForm = () => {
     const [serverError, setServerError] = useState<any>('');
@@ -26,7 +26,7 @@ export const SignInForm = () => {
             setServerError(Messages.genericError)
         }
 
-        if(signInResponse?.error) {
+        if (signInResponse?.error) {
             setServerError(signInResponse?.error ? Messages[signInResponse?.error] : Messages.genericError);
             return;
         }
@@ -42,6 +42,7 @@ export const SignInForm = () => {
             onSubmit={handleSubmit}
         >
             {({
+                  isSubmitting,
                   handleSubmit,
               }) => (
                 <Form onSubmit={handleSubmit}>
@@ -56,7 +57,8 @@ export const SignInForm = () => {
                                 <label htmlFor={'password'}>Contraseña</label>
                                 <FormInput type={'password'} maxLength={16} name={'password'}/>
                             </FormControl>
-                            <SubmitButton className={'margin-top-md'}>Ingresar</SubmitButton>
+                            <SubmitButton className={'margin-top-md'}
+                                          isSubmitting={isSubmitting}>Ingresar</SubmitButton>
                             {
                                 serverError && <ErrorMessage>{serverError}</ErrorMessage>
                             }

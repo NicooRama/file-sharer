@@ -1,4 +1,6 @@
-export interface UserFile {
+import {User} from "next-auth";
+
+export interface FileDescriptor {
     id: string;
     name: string;
     extension: string;

@@ -7,15 +7,17 @@ import {Text} from "@/src/shared/components/Text/Text";
 import {signUpValidationSchema} from "@/src/app/(users)/validations";
 import {Form, Formik} from "formik";
 import {SignUpPayload} from "@/src/app/(users)/interfaces";
-import {postSignIn, postSignUp} from "@/src/app/(users)/users/api/service";
+import {postSignIn, postSignUp} from "@/src/app/(users)/users/clientService";
 import {useState} from "react";
 import {Messages} from "@/src/messages";
 import {ErrorMessage} from "@/src/shared/components/ErrorMessage/ErrorMessage";
 import {FormInput} from "@/src/shared/components/form/FormInput/FormInput";
 import {SubmitButton} from "@/src/shared/components/form/SubmitButton/SubmitButton";
+import {useRouter} from "next/navigation";
 
 export const SignUpForm = () => {
     const [serverError,setServerError] = useState<any>('');
+    const router = useRouter();
 
     const handleSubmit = async (values: SignUpPayload) => {
         try {
@@ -25,20 +27,7 @@ export const SignUpForm = () => {
             return;
         };
 
-        let signInResponse;
-        try {
-            signInResponse = await postSignIn(values);
-        } catch (e) {
-            setServerError(Messages.genericError)
-            return;
-        }
-
-        if(signInResponse?.error) {
-            setServerError(Messages.genericError);
-            return;
-        }
-
-        window.location.href = "/files/list";
+        router.push('/sign-up/success');
     }
 
     return (
@@ -49,6 +38,7 @@ export const SignUpForm = () => {
             onSubmit={handleSubmit}
         >
             {({
+                  isSubmitting,
                   handleSubmit,
               }) => (
                 <Form onSubmit={handleSubmit}>
@@ -63,7 +53,7 @@ export const SignUpForm = () => {
                             <label htmlFor={'password'}>Contraseña</label>
                             <FormInput type={'password'} maxLength={16} name={'password'}/>
                         </FormControl>
-                        <SubmitButton className={'margin-top-md'}>Crear usuario</SubmitButton>
+                        <SubmitButton className={'margin-top-md'} isSubmitting={isSubmitting}>Crear usuario</SubmitButton>
                         {
                             serverError && <ErrorMessage>{serverError}</ErrorMessage>
                         }
