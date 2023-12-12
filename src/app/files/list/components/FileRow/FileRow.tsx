@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
-import {UserFile} from "@/src/app/files/file.interface";
+import {FileDescriptor} from "@/src/app/files/file.interface";
 
 export interface FileRowProps {
-    file: UserFile;
+    file: FileDescriptor;
     "data-testid"?: string;
 
     [props: string]: any;

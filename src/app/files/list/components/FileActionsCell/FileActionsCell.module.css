@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    gap: var(--spacing-xs);
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.buttonContainer {
+    background-color: white;
+    border-radius: var(--radius-xs);
+}

@@ -3,6 +3,8 @@ import {User} from "@/src/app/(users)/interfaces";
 
 import styles from './UserList.module.css';
 import {useState} from "react";
+import {FileDescriptor} from "@/src/app/files/file.interface";
+import {Text} from "@/src/shared/components/Text/Text";
 
 export interface UserListProps {
     users: User[]

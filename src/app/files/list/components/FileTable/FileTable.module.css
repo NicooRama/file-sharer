@@ -1,0 +1,35 @@
+.container table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: var(--border);
+    border-radius: var(--radius-xs);
+    background-color: white;
+}
+
+.container table thead tr th{
+    border-bottom: var(--border);
+}
+
+.container table th,
+.container table td {
+    position: relative;
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+}
+
+.container tbody tr:hover {
+    cursor: pointer;
+    transition-duration: 0.2s;
+    background-color: var(--color-primary-lightest);
+}
+
+.sortIcon{
+    position: absolute;
+    margin-left: var(--spacing-sm);
+}
+
+.sortAvailable {
+    cursor: pointer;
+    user-select: none;
+}
