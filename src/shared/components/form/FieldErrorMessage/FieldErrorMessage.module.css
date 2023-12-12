@@ -1,0 +1,5 @@
+.container {
+    margin-top: var(--spacing-xxs);
+    font-size: var(--font-size-xs);
+    color: var(--color-error-normal);
+}

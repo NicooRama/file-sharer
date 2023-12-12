@@ -1,44 +1,76 @@
 'use client'
-import * as Yup from 'yup';
-import styled, {ThemeProvider} from 'styled-components';
-import {signUpIcon} from "@consus/react-forms";
-import {Button, FormFrame, Input, Text} from "@consus/react-ui";
-import {theme} from "@/src/shared/theme";
-import {FormControl} from "@/src/shared/components/form/FormControl";
+import {FormControl} from "@/src/shared/components/form/FormControl/FormControl";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
+import {FormContainer} from "@/src/shared/components/form/FormContainer/FormContainer";
+import {FormFrame} from "@/src/shared/components/FormFrame/FormFrame";
+import {Text} from "@/src/shared/components/Text/Text";
+import {signUpValidationSchema} from "@/src/app/(users)/validations";
+import {Form, Formik} from "formik";
+import {SignUpPayload} from "@/src/app/(users)/interfaces";
+import {postSignIn, postSignUp} from "@/src/app/(users)/users/api/service";
+import {useState} from "react";
+import {Messages} from "@/src/messages";
+import {ErrorMessage} from "@/src/shared/components/ErrorMessage/ErrorMessage";
+import {FormInput} from "@/src/shared/components/form/FormInput/FormInput";
+import {SubmitButton} from "@/src/shared/components/form/SubmitButton/SubmitButton";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-`
+export const SignUpForm = () => {
+    const [serverError,setServerError] = useState<any>('');
 
-const StyledText = styled(Text)`
-  margin: 0 auto;
-`
+    const handleSubmit = async (values: SignUpPayload) => {
+        try {
+            await postSignUp(values);
+        } catch (e: any) {
+            setServerError(e?.response?.data?.code ? Messages[e.response.data.code] : Messages.genericError)
+            return;
+        };
 
-export interface SignUpFormProps {
-    onSubmit: (formData: FormData) => Promise<void>;
-}
+        let signInResponse;
+        try {
+            signInResponse = await postSignIn(values);
+        } catch (e) {
+            setServerError(Messages.genericError)
+            return;
+        }
 
-export const SignUpForm = ({onSubmit}: SignUpFormProps) => {
+        if(signInResponse?.error) {
+            setServerError(Messages.genericError);
+            return;
+        }
+
+        window.location.href = "/files/list";
+    }
+
     return (
-        <ThemeProvider theme={theme}>
-            <form action={onSubmit}>
-                <FormFrame icon={signUpIcon}>
-                    <Container>
-                        <StyledText size={'md'} weight={'semiBold'}>¡Creemos tu cuenta!</StyledText>
+        <Formik
+            initialValues={{username: '', password: ''} as any}
+            validationSchema={signUpValidationSchema}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+        >
+            {({
+                  handleSubmit,
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                <FormFrame icon={faUser}>
+                    <FormContainer>
+                        <Text size={'md'} weight={'semiBold'} align={'center'}>¡Creemos tu cuenta!</Text>
                         <FormControl>
                             <label htmlFor={'username'}>Corréo electrónico</label>
-                            <Input type={'email'} maxLength={100} name={'username'}/>
+                            <FormInput type={'email'} maxLength={100} name={'username'}/>
                         </FormControl>
                         <FormControl>
-                            <label htmlFor={'username'}>Contraseña</label>
-                            <Input type={'password'} maxLength={16} name={'password'}/>
+                            <label htmlFor={'password'}>Contraseña</label>
+                            <FormInput type={'password'} maxLength={16} name={'password'}/>
                         </FormControl>
-                        <Button type={'submit'}>Registrarse</Button>
-                    </Container>
+                        <SubmitButton className={'margin-top-md'}>Crear usuario</SubmitButton>
+                        {
+                            serverError && <ErrorMessage>{serverError}</ErrorMessage>
+                        }
+                    </FormContainer>
                 </FormFrame>
-            </form>
-        </ThemeProvider>
+                </Form>
+            )}
+        </Formik>
     )
 }

@@ -1,6 +1,14 @@
 .container {
-    width: 100%;
+    width: auto;
     background-color: #1c1c1c;
     color: white;
-    padding: 20px 16px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.authButtonsContainer {
+    display: flex;
+    gap: var(--spacing-sm);
 }

@@ -1,0 +1,35 @@
+.container {
+    position: relative;
+    padding-top: 40px;
+}
+
+.formFrameCard {
+    width: auto;
+    max-width: 425px;
+    display: block;
+    margin: 0 auto;
+    padding-top: calc(30px + var(--spacing-md));
+}
+
+.circleIconContainer {
+    display: flex;
+    z-index: 1;
+    justify-content: center;
+    border: var(--border);
+    border-radius: 80px;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 40px);
+    background-color: white;
+    height: 80px;
+    width: 80px;
+    min-width: 80px;
+}
+
+.circleIconContainer svg {
+    align-self: center;
+}
+
+.circleIconContainer svg path {
+    fill: var(--color-primary-normal);
+}

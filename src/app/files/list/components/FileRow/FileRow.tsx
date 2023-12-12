@@ -1,10 +1,6 @@
 'use client';
 import React from 'react';
-import styled from 'styled-components';
 import {UserFile} from "@/src/app/files/file.interface";
-import {TrashButton, Text} from "@consus/react-ui";
-
-const CellText = styled(Text).attrs({size: 'xs'})``
 
 export interface FileRowProps {
     file: UserFile;
@@ -16,18 +12,15 @@ export interface FileRowProps {
 export const FileRow = ({file}: FileRowProps) => {
     return (<tr>
         <td>
-            <CellText>
                 {file.name}
-            </CellText>
         </td>
         <td>
-            <CellText>
                 {file.extension}
-            </CellText></td>
-        <td><CellText>{file.size.toLocaleString()}</CellText></td>
-        <td><CellText>{file.owner || '-'}</CellText></td>
+    </td>
+        <td>{file.size.toLocaleString()}</td>
+        <td>{file.owner || '-'}</td>
         <td>
-            <TrashButton/>
+            <button/>
         </td>
     </tr>)
 };

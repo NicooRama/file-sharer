@@ -1,8 +1,12 @@
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
+
 import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import './globals.css'
-import StyledComponentsRegistry from "@/src/app/registry";
 import {Header} from "@/src/core/components/Header/Header";
+
 
 const inter = Inter({subsets: ['latin']})
 
@@ -17,10 +21,8 @@ export default function RootLayout({
     return (
         <html lang="en">
         <body className={inter.className}>
-        <Header />
-        <StyledComponentsRegistry>
-            {children}
-        </StyledComponentsRegistry>
+        <Header/>
+        {children}
         </body>
         </html>
     )

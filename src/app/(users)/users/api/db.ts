@@ -1,6 +1,4 @@
-import {User} from "@/src/app/(users)/interfaces";
-
-//TODO: change for empty db
+import {SignInPayload, User} from "@/src/app/(users)/interfaces";
 
 export const users: User[] = [
     {
@@ -19,3 +17,28 @@ export const users: User[] = [
         password: 'miraquetecomo'
     }
 ]
+
+export const userExists = (username: string) => {
+    return users.some(u => u.username.toLowerCase() === username.toLowerCase());
+}
+
+export const findUsers = () => {
+    return users.map(u => ({
+        ...u,
+        password: undefined
+    }));
+}
+
+export const signIn = (payload: SignInPayload) => {
+    if(!payload || !payload.username || !payload.password) {
+        return null;
+    }
+
+    const user = users.find(u => u.username.toLowerCase() === payload.username.toLowerCase());
+
+    if(!user || user.password !== payload.password) {
+        return null;
+    }
+
+    return {...user, password: undefined};
+}

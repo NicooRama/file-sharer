@@ -1,0 +1,51 @@
+.container {
+
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.xxs {
+    font-size: var(--font-size-xxs);
+}
+
+.xs {
+    font-size: var(--font-size-xs);
+}
+
+.sm {
+    font-size: var(--font-size-sm);
+}
+
+.md {
+    font-size: var(--font-size-md);
+}
+
+.lg {
+    font-size: var(--font-size-lg);
+}
+
+.bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.semiBold {
+    font-weight: var(--font-weight-semiBold);
+}
+
+.regular {
+    font-weight: var(--font-weight-regular);
+}
+
+.light {
+    font-weight: var(--font-weight-light);
+}

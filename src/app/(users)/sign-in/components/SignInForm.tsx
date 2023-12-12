@@ -1,49 +1,69 @@
 'use client'
-import * as Yup from 'yup';
-import styled, {ThemeProvider} from 'styled-components';
-import {signInIcon} from "@consus/react-forms";
-import {Button, FormFrame, Input, Text} from "@consus/react-ui";
-import {theme} from "@/src/shared/theme";
-import {FormControl} from "@/src/shared/components/form/FormControl";
+import {FormControl} from "@/src/shared/components/form/FormControl/FormControl";
+import {Text} from "@/src/shared/components/Text/Text";
+import {FormFrame} from "@/src/shared/components/FormFrame/FormFrame";
+import {faRightToBracket} from "@fortawesome/free-solid-svg-icons";
+import {FormContainer} from "@/src/shared/components/form/FormContainer/FormContainer";
+import {Form, Formik} from "formik";
+import {signInValidationSchema} from "@/src/app/(users)/validations";
+import {SignInPayload} from "@/src/app/(users)/interfaces";
+import {FormInput} from "@/src/shared/components/form/FormInput/FormInput";
+import {SubmitButton} from "@/src/shared/components/form/SubmitButton/SubmitButton";
+import {ErrorMessage} from "@/src/shared/components/ErrorMessage/ErrorMessage";
+import {useState} from "react";
+import {Messages} from "@/src/messages";
+import {postSignIn} from "@/src/app/(users)/users/api/service";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-`
+export const SignInForm = () => {
+    const [serverError, setServerError] = useState<any>('');
 
-const StyledText = styled(Text)`
-  margin: 0 auto;
-`
+    const handleSubmit = async (values: SignInPayload) => {
+        let signInResponse;
 
-const validationSchema = Yup.object().shape({
-    username: Yup.string().email().required('Debe ingresar un correo electrónico'),
-    password: Yup.string().required('Debe ingresar una contraseña'),
-})
+        try {
+            signInResponse = await postSignIn(values);
+        } catch (e) {
+            setServerError(Messages.genericError)
+        }
 
-export interface SignInFormProps {
-    onSubmit: (formData: FormData) => Promise<void>;
-}
+        if(signInResponse?.error) {
+            setServerError(signInResponse?.error ? Messages[signInResponse?.error] : Messages.genericError);
+            return;
+        }
 
-export const SignInForm = ({onSubmit}: SignInFormProps) => {
+        window.location.href = "/files/list";
+    }
+
     return (
-        <ThemeProvider theme={theme}>
-                <form action={onSubmit}>
-                    <FormFrame icon={signInIcon}>
-                        <Container>
-                            <StyledText size={'md'} weight={'semiBold'}>¡Ingresa!</StyledText>
+        <Formik
+            initialValues={{username: '', password: ''}}
+            validationSchema={signInValidationSchema}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+        >
+            {({
+                  handleSubmit,
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                    <FormFrame icon={faRightToBracket}>
+                        <FormContainer>
+                            <Text size={'md'} weight={'semiBold'} align={'center'}>¡Ingresa!</Text>
                             <FormControl>
                                 <label htmlFor={'username'}>Corréo electrónico</label>
-                                <Input type={'email'} maxLength={100} name={'username'}/>
+                                <FormInput type={'email'} maxLength={100} name={'username'}/>
                             </FormControl>
                             <FormControl>
-                                <label htmlFor={'username'}>Contraseña</label>
-                                <Input type={'password'} maxLength={16} name={'password'}/>
+                                <label htmlFor={'password'}>Contraseña</label>
+                                <FormInput type={'password'} maxLength={16} name={'password'}/>
                             </FormControl>
-                            <Button type={'submit'}>Ingresar</Button>
-                        </Container>
+                            <SubmitButton className={'margin-top-md'}>Ingresar</SubmitButton>
+                            {
+                                serverError && <ErrorMessage>{serverError}</ErrorMessage>
+                            }
+                        </FormContainer>
                     </FormFrame>
-                </form>
-        </ThemeProvider>
+                </Form>
+            )}
+        </Formik>
     )
 }

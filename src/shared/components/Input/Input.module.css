@@ -1,0 +1,7 @@
+.input {
+    width: -moz-available;
+    width: -webkit-fill-available;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-xs);
+    background-color: white;
+}
