@@ -1,3 +1,19 @@
+.emptyStateContainer {
+    margin: calc(var(--spacing-lg)*2) auto;
+    display: flex;
+    justify-content: center;
+}
+
+.nameCell {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.nameCell svg{
+    visibility: hidden;
+}
+
 .container table {
     width: 100%;
     border-collapse: separate;
@@ -5,6 +21,14 @@
     border: var(--border);
     border-radius: var(--radius-xs);
     background-color: white;
+}
+
+@media (max-width: 991px) {
+    .container table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 }
 
 .container table thead tr th{
@@ -19,9 +43,13 @@
 }
 
 .container tbody tr:hover {
-    cursor: pointer;
     transition-duration: 0.2s;
     background-color: var(--color-primary-lightest);
+}
+
+.container tbody tr:hover svg {
+    cursor: pointer;
+    visibility: visible;
 }
 
 .sortIcon{

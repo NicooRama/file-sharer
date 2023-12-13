@@ -1,0 +1,16 @@
+.popoverContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.buttonsPanel {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-left: auto;
+}
+
+.buttonsPanel button {
+    width: 45px;
+    padding: var(--spacing-xxs) var(--spacing-xs) !important;
+}

@@ -1,15 +1,19 @@
 'use client'
 import React from 'react';
-import {FileDescriptor} from "@/src/app/files/file.interface";
+import {UserFileDescriptor} from "@/src/app/files/file.interface";
 import {ColumnDef, getCoreRowModel, getSortedRowModel, SortingState} from "@tanstack/table-core";
 import {flexRender, useReactTable} from "@tanstack/react-table";
 import styles from './FileTable.module.css'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSortDown, faSortUp} from "@fortawesome/free-solid-svg-icons";
+import {faPen, faSortDown, faSortUp} from "@fortawesome/free-solid-svg-icons";
 import {FileActionsCell} from "@/src/app/files/list/components/FileActionsCell/FileActionsCell";
+import {Text} from '@/src/shared/components/Text/Text';
+import {Card} from "@/src/shared/components/Card/Card";
+import {LinkButton} from "@/src/shared/components/LinkButton/LinkButton";
 
 export interface FileTableProps {
-    files: FileDescriptor[];
+    files: UserFileDescriptor[];
+    onFileRemove: (fileId: string) => Promise<void>;
     "data-testid"?: string;
 
     [props: string]: any;
@@ -27,14 +31,22 @@ const numberToFileSize = (size: number) => {
 }
 
 // el componente tabla de la lib esta trayendo problemas
-export const FileTable = ({user, files}: FileTableProps) => {
+export const FileTable = ({user, files, onFileRemove}: FileTableProps) => {
     const [sorting, setSorting] = React.useState<SortingState>([])
 
-    const columns = React.useMemo<ColumnDef<FileDescriptor>[]>(
+    const columns = React.useMemo<ColumnDef<UserFileDescriptor>[]>(
         () => [
             {
                 header: 'Nombre',
                 accessorKey: 'name',
+                cell: ({row}) => {
+                    return <div className={styles.nameCell}>
+                        {row.original.name as string}
+                        <LinkButton href={`/files/list/${row.original.id}/edit`} variant={'tertiary'}>
+                            <FontAwesomeIcon icon={faPen} title={'Editar'} />
+                        </LinkButton>
+                    </div>
+                }
             },
             {
                 header: 'Extension',
@@ -69,7 +81,7 @@ export const FileTable = ({user, files}: FileTableProps) => {
                 header: '',
                 id: 'actions',
                 cell: ({row}) => {
-                    return <FileActionsCell file={row.original} />
+                    return <FileActionsCell file={row.original} isOwner={row.original.owner === user.username} onFileRemove={onFileRemove} />
                 }
             }
         ],
@@ -85,7 +97,17 @@ export const FileTable = ({user, files}: FileTableProps) => {
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
-    })
+    });
+
+    if(files.length === 0) {
+        return <div className={styles.container}>
+            <Card>
+                <div className={styles.emptyStateContainer}>
+                    <Text size={'lg'} align={'center'}>Todavia no subiste ningun archivo</Text>
+                </div>
+            </Card>
+        </div>
+    }
 
     return (
         <div className={styles.container}>
