@@ -1,5 +1,5 @@
 import React from 'react';
-import {getClassName} from "@/src/shared/components/Button/button.utils";
+import {getButtonClassName} from "@/src/shared/components/Button/button.utils";
 
 export interface ButtonProps {
     onClick?: (e?: any) => void;
@@ -30,7 +30,7 @@ export const Button: React.FC<ButtonProps> = ({
 
     return (
         <button
-            className={getClassName({active, className, variant, subVariant})}
+            className={getButtonClassName({active, className, variant, subVariant})}
             disabled={disabled}
             onClick={handleClick}
             {...props}

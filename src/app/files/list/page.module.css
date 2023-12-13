@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.uploadButton {
+    width: fit-content;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .uploadButton {
+        width: auto;
+    }
+}

@@ -22,5 +22,6 @@ export default withAuth(
 export const config = {
     matcher: [
         '/files/list',
+        '/files/upload',
     ],
 }

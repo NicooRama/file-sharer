@@ -9,7 +9,7 @@ import {faRightToBracket, faUser} from "@fortawesome/free-solid-svg-icons";
 export async function Header() {
     const session = await getServerSession();
     return <div className={styles.container}>
-        <Text size={'md'}>File sharer</Text>
+        <LinkButton href={'/'} variant={'tertiary'}><Text size={'md'} weight={'semiBold'}>File sharer</Text></LinkButton>
         {
             session?.user ? <SignOutButton/> : <div className={styles.authButtonsContainer}>
                 <LinkButton variant={'secondary'} href={'/sign-in'}><FontAwesomeIcon icon={faRightToBracket} />Ingresar</LinkButton>

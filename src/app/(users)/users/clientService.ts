@@ -1,10 +1,9 @@
 import {SignUpPayload} from "@/src/app/(users)/interfaces";
 import axios from "axios";
-import {baseUrl} from "@/src/core/constants";
 import {signIn} from "next-auth/react";
 
 export const postSignUp = async (payload: SignUpPayload) => {
-    const res = await axios.post(`${baseUrl}/users/api`, payload);
+    const res = await axios.post(`/users/api`, payload);
     return res.data;
 }
 

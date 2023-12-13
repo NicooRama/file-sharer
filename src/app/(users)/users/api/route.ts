@@ -1,31 +1,27 @@
-import {sleep} from "@/src/shared/utils";
 import {NextRequest} from "next/server";
-import {findUsers, userExists, users} from "@/src/app/(users)/users/api/db";
-import crypto from "crypto";
+import {createUser, findUsersToShare, userExists} from "@/src/app/(users)/users/api/db.service";
 import {getUser} from "@/src/core/auth";
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
-    await sleep(1000);
     const user = await getUser(req);
 
-    const users = findUsers();
-    const usersToShare = users.filter(u => u.id !== user.id);
+    const usersToShare = await findUsersToShare(user);
 
     return Response.json(usersToShare);
 }
 
 export async function POST(req: NextRequest) {
-    await sleep(1000);
-
     const {username, password} = await req.json();
 
-    if(userExists(username)) {
+    const exists = await userExists(username);
+
+    if(exists) {
         return Response.json({code: 'userAlreadyExists'}, {status: 400});
     }
 
-    const id = crypto.randomUUID();
-    users.push({id, username, password});
+    await createUser(username, password)
+
     return Response.json('', {status: 201});
 }

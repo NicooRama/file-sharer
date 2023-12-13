@@ -17,3 +17,11 @@ estan en español rioplatense.
 
 # Performance
 - El filtro de usuarios se hace del lado del client, esto puede no ser optimo en un proyecto real por la cantidad de usuarios que puede haber, teniendo que hacer el filtrado del lado del servidor, pero por temas de tiempo se opto por hacerlo en el cliente.
+
+
+
+# TODO
+- Pantalla de not found
+- Completar loadings
+- Implementar eliminado de archivos
+- Completar readme

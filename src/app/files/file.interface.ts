@@ -1,11 +1,18 @@
-import {User} from "next-auth";
-
-export interface FileDescriptor {
+export interface UserFile {
     id: string;
+    createdAt: Date;
+    owner: string;
+    sharedWith: string[];
+    file: File;
+}
+
+export interface UserFileDescriptor extends Omit<UserFile, 'file'>{
     name: string;
     extension: string;
     size: number;
-    createdAt: Date;
-    owner: string;
+}
+
+export interface UserFileDescriptorUpdate {
+    name: string;
     sharedWith: string[];
 }

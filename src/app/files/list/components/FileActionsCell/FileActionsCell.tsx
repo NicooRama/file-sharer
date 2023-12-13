@@ -39,6 +39,8 @@ export const FileActionsCell = ({file, isOwner, onFileRemove, ...props}: FileAct
                 <FontAwesomeIcon icon={faDownload}/>
             </LinkButton>
         </div>
-        <DeleteFileConfirmationPopover onConfirm={() => onFileRemove(file.id)} />
+        {
+            isOwner && <DeleteFileConfirmationPopover onConfirm={() => onFileRemove(file.id)} />
+        }
     </div>)
 };

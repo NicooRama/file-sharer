@@ -1,0 +1,9 @@
+.container {
+    border: 1px solid var(--color-gray-dark);
+    border-bottom-right-radius: var(--radius-xs);
+    border-bottom-left-radius: var(--radius-xs);
+    border-top: 0;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xxs);
+    background-color: white;
+}

@@ -1,73 +1,27 @@
 import {SignInPayload, User} from "@/src/app/(users)/interfaces";
+import {users} from "@/src/app/(users)/users/api/db";
 
-const dynamic = 'force-dynamic'
-export const users: User[] = [
-    {
-        id: '1',
-        username: 'leomessi@gmail.com',
-        password: 'loscafre2022'
-    },
-    {
-        id: '2',
-        username: 'depaul@gmail.com',
-        password: 'hola1234'
-    },
-    {
-        id: '3',
-        username: 'dibumartinez@gmail.com',
-        password: 'miraquetecomo'
-    },
-    {
-        id: '4',
-        username: 'kunaguero@gmail.com',
-        password: 'aguero2023'
-    },
-    {
-        id: '5',
-        username: 'paulodybala@gmail.com',
-        password: 'dybala10'
-    },
-    {
-        id: '6',
-        username: 'sergioramos@gmail.com',
-        password: 'halamadrid'
-    },
-    {
-        id: '7',
-        username: 'virgilvandijk@gmail.com',
-        password: 'liverpoolfc'
-    },
-    {
-        id: '8',
-        username: 'kevindebruyne@gmail.com',
-        password: 'manchestercity'
-    },
-    {
-        id: '9',
-        username: 'neymarjr@gmail.com',
-        password: 'psgforever'
-    },
-    {
-        id: '10',
-        username: 'masonmount@gmail.com',
-        password: 'chelseafc'
-    },
-];
+const dynamic = 'force-static';
 
-export const userExists = (username: string) => {
+export const userExists = async (username: string) => {
     return users.some(u => u.username.toLowerCase() === username.toLowerCase());
 }
 
 export const findById = (id: string): User | undefined => users.find(u => u.id === id);
 
-export const findUsers = () => {
+export const findUsers = async () => {
     return users.map(u => ({
         ...u,
         password: undefined
     }));
 }
 
-export const signIn = (payload: SignInPayload) => {
+export const findUsersToShare = async (owner: User) => {
+    const users = await findUsers();
+    return users.filter(u => u.id !== owner.id)
+}
+
+export const signIn = async (payload: SignInPayload) => {
     if(!payload || !payload.username || !payload.password) {
         return null;
     }
@@ -79,4 +33,9 @@ export const signIn = (payload: SignInPayload) => {
     }
 
     return {...user, password: undefined};
+}
+
+export const createUser = async (username: string, password: string) => {
+    const id = crypto.randomUUID();
+    users.push({id, username, password});
 }

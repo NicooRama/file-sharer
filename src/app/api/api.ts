@@ -1,10 +1,5 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {baseUrl} from "@/src/core/constants";
 import {cookies} from "next/headers";
-
-// export const api = axios.create({
-//     baseURL: baseUrl,
-// });
 
 export const authorizationHeaders = () => ({
     headers: {

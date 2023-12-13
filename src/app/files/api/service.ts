@@ -1,4 +1,3 @@
-import {baseUrl} from "@/src/core/constants";
 import {api, authorizationHeaders} from "@/src/app/api/api";
 import {revalidateTag} from "next/cache";
 
@@ -34,3 +33,15 @@ export async function shareFile(fileId: string, users: string[]) {
     revalidateTag(`files`);
     return res.data;
 }
+
+export async function updateFileName(fileId: string, name: string) {
+    const res = await api.put(`/files/api/list/${fileId}`, {
+        name,
+    }, {
+        ...authorizationHeaders(),
+    });
+    revalidateTag(`file${fileId}`);
+    revalidateTag(`files`);
+    return res.data;
+}
+
