@@ -22,6 +22,9 @@ export default withAuth(
 export const config = {
     matcher: [
         '/files/list',
+        '/files/list/:id',
+        '/files/list/:id/edit',
+        '/files/list/:id/share',
         '/files/upload',
     ],
 }
